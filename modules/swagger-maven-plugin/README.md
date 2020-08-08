@@ -12,7 +12,7 @@ to `swagger` [configuration property](https://github.com/swagger-api/swagger-cor
     <build>
         <plugins>
             <plugin>
-                <groupId>io.swagger.core.v3</groupId>
+                <groupId>com.github.krraghavan</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
                 <version>2.0.8</version>
                 <configuration>
@@ -37,7 +37,7 @@ to `swagger` [configuration property](https://github.com/swagger-api/swagger-cor
     </build>
     <dependencies>
         <dependency>
-            <groupId>io.swagger.core.v3</groupId>
+            <groupId>com.github.krraghavan</groupId>
             <artifactId>swagger-jaxrs2</artifactId>
             <version>2.0.8</version>
         </dependency>
@@ -63,7 +63,7 @@ to `swagger` [configuration property](https://github.com/swagger-api/swagger-cor
     <build>
         <plugins>
             <plugin>
-                <groupId>io.swagger.core.v3</groupId>
+                <groupId>com.github.krraghavan</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
                 <version>2.0.8</version>
                 <configuration>
