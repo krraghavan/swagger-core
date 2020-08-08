@@ -37,6 +37,11 @@ public class SchemaSerializer extends JsonSerializer<Schema> implements Resolvab
         } else {
             jgen.writeStartObject();
             jgen.writeStringField("$ref", value.get$ref());
+            if (value.getExtensions() != null) {
+              for (Object ext: value.getExtensions().keySet()) {
+                jgen.writeObjectField((String) ext , value.getExtensions().get(ext));
+              }
+            }
             jgen.writeEndObject();
         }
     }

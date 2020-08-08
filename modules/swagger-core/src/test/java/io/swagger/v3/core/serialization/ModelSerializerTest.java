@@ -106,6 +106,21 @@ public class ModelSerializerTest {
         SerializationMatchers.assertEqualsToJson(p, json);
     }
 
+    @Test(description = "it should serialize a model with ref and extensions")
+    public void serializeModelWithRefAndExtensions() throws IOException {
+        Schema model = new Schema().$ref("foo");
+        model.addExtension("x-ext", "bar");
+        final String json = "{\"$ref\":\"#/components/schemas/foo\",\"x-ext\":\"bar\"}";
+        assertEquals(m.writeValueAsString(model), json);
+    }
+
+    @Test(description = "it should deserialize a model with ref and extensions")
+    public void deserializeModelWithRefAndExtensions() throws IOException {
+        String json = "{\"$ref\":\"#/components/schemas/foo\",\"x-ext\":\"bar\"}";
+        Schema model = m.readValue(json, Schema.class);
+        assertEquals(m.writeValueAsString(model), json);
+    }
+
     @Test(description = "it should serialize an array model")
     public void serializeArrayModel() throws IOException {
         final ArraySchema model = new ArraySchema();

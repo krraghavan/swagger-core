@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.UUIDSchema;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.util.*;
 
 public class ModelDeserializer extends JsonDeserializer<Schema> {
     @Override
@@ -77,12 +78,47 @@ public class ModelDeserializer extends JsonDeserializer<Schema> {
                 }
             } else if (node.get("$ref") != null) {
                 schema = new Schema().$ref(node.get("$ref").asText());
+                Map<String,Object> extensions = getExtensions(node);
+                if(extensions != null && extensions.size() > 0) {
+                  schema.setExtensions(extensions);
+                }
             } else { // assume object
                 schema = deserializeObjectSchema(node);
             }
         }
 
         return schema;
+    }
+
+    public Set<String> getKeys(JsonNode node) {
+        Set<String> keys = new LinkedHashSet<>();
+        if (node == null) {
+          return keys;
+        }
+
+        Iterator<String> it = node.fieldNames();
+        while (it.hasNext()) {
+          keys.add(it.next());
+        }
+
+        return keys;
+    }
+
+    public Map<String,Object> getExtensions(JsonNode node){
+
+        Map<String,Object> extensions = new LinkedHashMap<>();
+        if (node == null) {
+          return extensions;
+        }
+
+        Set<String> keys = getKeys(node);
+        for(String key : keys) {
+          if(key.startsWith("x-")) {
+            extensions.put(key, Json.mapper().convertValue(node.get(key), Object.class));
+          }
+        }
+        return extensions;
+
     }
 
     private Schema deserializeObjectSchema(JsonNode node) {
